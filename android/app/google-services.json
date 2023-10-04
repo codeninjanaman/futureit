@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "33185282249",
+    "project_id": "future-it-c63d3",
+    "storage_bucket": "future-it-c63d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33185282249:android:b8ab779d64301338557518",
+        "android_client_info": {
+          "package_name": "com.example.futureit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33185282249-4c27c4uek28m72d2odejegck27uqilcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.futureit",
+            "certificate_hash": "6d1bd963f66dfeae74f4024d2f6724d7cd5247ab"
+          }
+        },
+        {
+          "client_id": "33185282249-5a9jghhdrck4do228nfj0bad8uitrrqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3USBmDUVaJwZsICtiOgq75qmgSsK2UJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33185282249-5a9jghhdrck4do228nfj0bad8uitrrqg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "33185282249-cbt4evu1tk2vk04djhabpjhidt25vp5d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.futureit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
