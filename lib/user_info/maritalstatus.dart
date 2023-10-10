@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:futureit/user_info/occupation%20.dart';
+
+import '../constants.dart';
 
 class maritalstatus extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class _maritalstatusState extends State<maritalstatus> {
   Color marriedButtonColor = Colors.grey.shade800;
   Color singleButtonColor = Colors.grey.shade800;
   String selectedmaritalstatus = ''; 
+  final _db = FirebaseFirestore.instance;
+  String docID = Pallete.documentId;
   
   // To store the selected gender
 
@@ -19,11 +24,12 @@ class _maritalstatusState extends State<maritalstatus> {
       if (maritalstatus == 'Single') {
         singleButtonColor = Colors.green; // Change the button color
         marriedButtonColor = Colors.grey.shade800;
+        _db.collection("Users").doc(docID).update({"Marital Status": "Single"});
       
       } else if (maritalstatus == 'Married') {
         singleButtonColor = Colors.grey.shade800;
         marriedButtonColor = Colors.green; // Change the button color
-        
+        _db.collection("Users").doc(docID).update({"Marital Status": "Married"});
       } 
 
       Navigator.push(

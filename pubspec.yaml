@@ -53,6 +53,7 @@ dependencies:
   flutter_form_builder: ^8.0.0
   firebase_storage: ^11.2.7
   image_picker: ^1.0.4
+  percent_indicator: ^4.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

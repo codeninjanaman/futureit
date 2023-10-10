@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futureit/constants.dart';
 import 'package:futureit/profile/profilemenuwidget.dart';
 import 'package:futureit/profile/updateprofilescreen.dart';
 import 'package:get/get.dart';
@@ -60,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                            height: 30,
                            decoration: BoxDecoration(
                              borderRadius: BorderRadius.circular(100),
-                             color: Colors.deepPurpleAccent,
+                             color: Pallete.color2
                            ),
                            child: Icon(LineAwesomeIcons.alternate_pencil,
                            size: 15,
@@ -127,7 +128,7 @@ class ProfileScreen extends StatelessWidget {
                 width: 200,
                 child: ElevatedButton(onPressed: ()=>Get.to(()=>Updateprofile()), child: Text("Edit Profile",
                 style: TextStyle(
-                  color: Colors.deepPurpleAccent
+                  color: Pallete.color2
                 ),),
                 style: ElevatedButton.styleFrom(
                   shape: StadiumBorder(),

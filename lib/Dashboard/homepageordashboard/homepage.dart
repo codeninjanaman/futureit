@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:futureit/Dashboard/analytics/analytics.dart';
+import 'package:futureit/Dashboard/homepageordashboard/aboutus.dart';
 import 'package:futureit/Dashboard/homepageordashboard/viewholdings.dart';
+import 'package:futureit/Dashboard/portfolio/portfolio.dart';
+import 'package:futureit/constants.dart';
+import 'package:futureit/controller/profilecontroller.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../authentication/models/user_model.dart';
+import '../../authentication_repositary/authentication_repositary.dart';
+import '../../profile/profile_screen.dart';
+import '../../profile/profilemenuwidget.dart';
 import 'order.dart';
 
 class homepage extends StatefulWidget {
@@ -12,7 +23,30 @@ class homepage extends StatefulWidget {
 
 class _homepageState extends State<homepage> {
 
+  DateTime ?loginTime;
   
+  
+
+  void getTime() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+String? loginTimeString = prefs.getString('loginTime');
+if (loginTimeString != null) {
+  setState(() {
+    loginTime = DateTime.parse(loginTimeString);
+  });
+  // Now you have the login time, and you can use it as needed.
+}
+
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTime();
+  }
+
+
+  final controller = Get.put(ProfileController());
 
   int _selectedTabIndex = 0; // Index of the selected tab
 
@@ -26,13 +60,230 @@ class _homepageState extends State<homepage> {
     final height= MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 16, 16, 16),
+      appBar: AppBar(
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1), // Set the height of the white border
+            child: Container(
+              color: Colors.grey, // Color of the white border
+              height: 1, // Thickness of the white border
+            ),
+          ),
+            iconTheme: IconThemeData(color: Colors.white),
+            backgroundColor: Colors.transparent,
+            // leading: IconButton(
+            //   icon: Icon(Icons.menu,),
+            //   onPressed: (){
+            //     Drawer()
+            //   },
+      
+            // color: Colors.white,),
+      
+            title: SizedBox( 
+              height: 40,
+              child: TextFormField(
+                style: TextStyle(color: Colors.white),
+                
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.only(bottom: 2),
+                  label: Text("Search",
+                  style: TextStyle(fontSize: 15,
+                  color: Colors.white),),
+                  prefixIcon: Icon(Icons.search,
+                  color: Colors.white,),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1.1,
+                        color:Colors.white)
+                  ),
+                  labelStyle: TextStyle(color: Colors.white),
+                  // focusedBorder: OutlineInputBorder(
+                  //   borderSide: BorderSide(width: 2.0,
+                  //   color:Color.fromARGB(221, 44, 42, 42))
+                  // )
+                  
+                )
+              ),
+            ),
+            actions: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Colors.transparent
+      
+                ),
+                child: IconButton(onPressed: (){
+                  Get.to(()=>ProfileScreen());
+                }, icon: Icon(Icons.person,
+                color: Colors.white,)),
+              )
+      
+            ],
+          ),
+          drawer: Drawer(
+            backgroundColor: const Color.fromARGB(255, 16, 16, 16),
+            child: 
+            Column(
+             
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SizedBox(height: height*0.015,),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  height: height*0.17,
+                  decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFD69A38),
+                Color(0xFF110C2C),
+                
+              ],
+              stops: [0.2,0.9]
+            )
+          ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: height*0.015,),
+                      Row(
+                        children: [
+                          Text("Name : ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                          ),),
+                          FutureBuilder(
+                  future: controller.getUserData(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.done){
+                      if(snapshot.hasData){
+                        UserModel user = snapshot.data as UserModel;
+                        return Text(user.fullName.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          
+                        ),);
+                        
+                      }
+                    }
+                    return Text("Loading");
+                  
+                  })
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          Text("Email : ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                          ),),
+                          FutureBuilder(
+                  future: controller.getUserData(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.done){
+                      if(snapshot.hasData){
+                        UserModel user = snapshot.data as UserModel;
+                        return Text(user.email.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          
+                        ),);
+                        
+                      }
+                    }
+                    return Text("Loading");
+                  
+                  })
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Login Time : ',
+                          style: TextStyle(color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),),
+                          
+                          
+                          Flexible(
+                            child: Text('$loginTime',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.white,
+                            fontSize: 15)),
+                          )
+                          
+                        ],
+                      )
+                      
+                    ],
+                  ),
+                ),
+                
+              SizedBox(height: height*0.01,),
+              Profilemenuwidget(title: 'Market', icon: Icons.bar_chart, onPress: (){}),
+              Profilemenuwidget(title: 'Trade', icon: Icons.track_changes, onPress: (){}),
+              Profilemenuwidget(title: 'Portfolio', icon: Icons.book, onPress: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => portfolio(),
+                    ),
+                  );
+              }),
+              Profilemenuwidget(title: 'Fund Transfer', icon: Icons.money, onPress: (){}),
+              Profilemenuwidget(title: 'News', icon: Icons.newspaper, onPress: (){}),
+              Profilemenuwidget(title: 'Analytics', icon: Icons.pie_chart, onPress: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => analytics(),
+                    ),
+                  );
+              }),
+              Profilemenuwidget(title: 'Help', icon: Icons.help, onPress: (){}),
+              Profilemenuwidget(title: 'About Us', icon: Icons.person, onPress: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => aboutus(),
+                    ),
+                  );
+              }),
+
+              Container(
+                height: height*0.1,
+                padding: EdgeInsets.all(20),
+                child: ElevatedButton(onPressed: (){
+                  AuthenticationRepositary.instance.logout();
+                }, child: Text('LOGOUT',
+                style: TextStyle(
+                  color: Colors.white,
+              
+                ),),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+                  backgroundColor: Colors.red
+                ),),
+              )
+              
+              ],
+            ),
+            
+          ),
+      backgroundColor: Pallete.color1,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            
             Container(
-              padding: EdgeInsets.only(top: 15,left: 20,right: 20,),
-                color: Colors.black,
+              padding: EdgeInsets.only(top: 1,left: 20,right: 20,),
+                color: Color(0xFFFFFFFF).withOpacity(0.7),
                 height: 100,
                 width: double.infinity,
                 child: Row(
@@ -43,7 +294,16 @@ class _homepageState extends State<homepage> {
                             height: 60,
                             padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            color: Color(0xFF8C64FF),
+                             gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFD69A38),
+                Color(0xFF110C2C),
+                
+              ],
+              stops: [0.2,0.9]
+            ),
                             borderRadius: BorderRadius.circular(10),
                             // border: Border.all(
                             //   width: 1,
@@ -90,7 +350,16 @@ class _homepageState extends State<homepage> {
                             padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFF8C64FF),
+                             gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFD69A38),
+                Color(0xFF110C2C),
+                
+              ],
+              stops: [0.2,0.9]
+            )
                             
                           ),
                           child: Column(
@@ -117,7 +386,7 @@ class _homepageState extends State<homepage> {
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 12,
-                                    fontWeight: FontWeight.bold
+                                    
                                   ),)
                                 ],
                               )
@@ -129,7 +398,7 @@ class _homepageState extends State<homepage> {
               ),
               Container(
                 padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
-                color: Colors.black,
+                color: Color(0xFFFFFFFF).withOpacity(0.7),
                 height: 80,
                 child: Row(
                   children: [
@@ -139,7 +408,16 @@ class _homepageState extends State<homepage> {
                             padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFF8C64FF),
+                              gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFD69A38),
+                Color(0xFF110C2C),
+                
+              ],
+              stops: [0.2,0.9]
+            )
                           
                           ),
                           child: Column(
@@ -179,7 +457,16 @@ class _homepageState extends State<homepage> {
                             padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFF8C64FF),
+                            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFD69A38),
+                Color(0xFF110C2C),
+                
+              ],
+              stops: [0.2,0.9]
+            )
                             
                           ),
                           child: Column(
@@ -242,7 +529,7 @@ class _homepageState extends State<homepage> {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: _selectedTabIndex == 0 ? Colors.blue : Colors.transparent,
+                          color: _selectedTabIndex == 0 ? Pallete.color2 : Colors.transparent,
                           width: 2.0,
                         ),
                       ),
@@ -271,7 +558,7 @@ class _homepageState extends State<homepage> {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: _selectedTabIndex == 1 ? Colors.blue : Colors.transparent,
+                          color: _selectedTabIndex == 1 ? Pallete.color2 : Colors.transparent,
                           width: 2.0,
                         ),
                       ),
@@ -452,7 +739,9 @@ class _homepageState extends State<homepage> {
            ],
          ),
                  SizedBox(height: height*0.035,),
-                  viewholdings(height: height, width: width)
+                  viewholdings(height: height, width: width),
+
+                  
                   
                   ],
                 ),
@@ -461,7 +750,83 @@ class _homepageState extends State<homepage> {
           ),
         ],
       ),
+              ),
+
+              Container(
+                padding: EdgeInsets.only(left: 20,right: 20,top: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Trading Calls',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                  ),),
+
+                  SizedBox(height: height*0.01,),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Stocks',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withOpacity(0.8)
+                      ),),
+
+                      Text('SL',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withOpacity(0.8)
+                      ),),
+
+                      Text('TGT',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withOpacity(0.8)
+                      ),),
+
+                      Text('Time',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withOpacity(0.8)
+                      ),),
+
+                      Text('Status',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withOpacity(0.8)
+                      ),),
+                    ],
+                  )
+                  ,
+                  SizedBox(height: 3,),
+                  Container(
+                    height: 1,
+                    decoration: BoxDecoration(
+                      
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.5),
+                        width: 1
+                      )
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Center(
+                    child: Text('No Trading Calls !',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.8)
+                    ),),
+                  ),
+
+                  SizedBox(height: 120,)
+                  ]
+                  ,
+                ),
               )
+
+              
           ],
         )
       ),

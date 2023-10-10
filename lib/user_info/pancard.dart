@@ -147,13 +147,15 @@ class _PanCardUploadPageState extends State<PanCardUploadPage> {
     }
     User? user = FirebaseAuth.instance.currentUser;
     String uid = user!.uid;
+
+    String docID = Pallete.documentId;
     // DocumentReference documentReference = _firestore.collection('Users').doc();
     // DocumentSnapshot snapshot = await documentReference.get();
     // String documentid = snapshot.id;
     
     // final Reference storageRef = _storage.ref().child('pan_card_images').child('$uid.jpg');
 
-    final Reference storageRef = _storage.ref().child('pancard_images').child('$uid.jpg');
+    final Reference storageRef = _storage.ref().child('pancard_images').child('$docID.jpg');
 
     final UploadTask uploadTask = storageRef.putFile(_selectedImage!);
 
@@ -185,8 +187,10 @@ class _PanCardUploadPageState extends State<PanCardUploadPage> {
 
     User? user = FirebaseAuth.instance.currentUser;
     String uid = user!.uid;
+    String docID = Pallete.documentId;
+
     // Replace 'users' and 'userId' with your Firestore collection and document ID
-    await _firestore.collection('Users').doc('$uid').set(data, SetOptions(merge: true));
+    await _firestore.collection('Users').doc('$docID').set(data, SetOptions(merge: true));
   }
 
   @override

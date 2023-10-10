@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:futureit/Dashboard/dashboard.dart';
 import 'package:futureit/authentication/forgotpassword/mobileotp.dart';
 import 'package:futureit/authentication/forgotpassword/otpscreen.dart';
 import 'package:futureit/user_info/maritalstatus.dart';
+
+import '../constants.dart';
 
 class income extends StatefulWidget {
   @override
@@ -11,6 +14,8 @@ class income extends StatefulWidget {
 
 class _incomeState extends State<income> {
 
+  final _db = FirebaseFirestore.instance;
+  String docID = Pallete.documentId;
   int selectedincomeIndex = -1;
   List<String> income= ['Upto 1 Lakh', '1 Lakh - 5 Lakh', '5 Lakh - 10 Lakh','10 Lakh - 25 Lakh','25 Lakh - 50 Lakh','50 Lakh - 1 Crore','1 Crore - 5 Crore','More than 5 Crores'];
   // To store the selected gender
@@ -76,6 +81,8 @@ class _incomeState extends State<income> {
                   onPressed: () {
                     setState(() {
                       selectedincomeIndex = index;
+                      String incomeselected = income[selectedincomeIndex];
+                      _db.collection("Users").doc(docID).update({"Income": "$incomeselected"});
                     });
                     Navigator.push(
                       context,

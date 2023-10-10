@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futureit/constants.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 class Profilemenuwidget extends StatelessWidget {
   const Profilemenuwidget({
@@ -31,7 +32,7 @@ class Profilemenuwidget extends StatelessWidget {
     
          ),
          child: Icon(icon,
-         color: Colors.deepPurpleAccent,),
+         color: Pallete.color2),
          
        ),
        title: Text(title,

@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:futureit/user_info/income.dart';
 import 'package:futureit/user_info/maritalstatus.dart';
+
+import '../constants.dart';
 
 class occupation extends StatefulWidget {
   @override
@@ -9,6 +12,8 @@ class occupation extends StatefulWidget {
 
 class _occupationState extends State<occupation> {
 
+  final _db = FirebaseFirestore.instance;
+  String docID = Pallete.documentId;
   int selectedoccupationIndex = -1;
   List<String> occupation= ['Private Sector Service', 'Public Sector Service', 'Government Service','Housewife','Student','Self Employed','Business','Professional','Retired','Farmer','Service','Agriculturist'];
   // To store the selected gender
@@ -76,6 +81,8 @@ class _occupationState extends State<occupation> {
                   onPressed: () {
                     setState(() {
                       selectedoccupationIndex = index;
+                      String occupationselected = occupation[selectedoccupationIndex];
+                      _db.collection("Users").doc(docID).update({"Occupation": "$occupationselected"});
                     });
                     Navigator.push(
                       context,

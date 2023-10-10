@@ -1,6 +1,7 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:futureit/authentication/models/user_model.dart';
+import 'package:futureit/constants.dart';
 import 'package:futureit/controller/profilecontroller.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -70,7 +71,7 @@ class Updateprofile extends StatelessWidget {
                              height: 30,
                              decoration: BoxDecoration(
                                borderRadius: BorderRadius.circular(100),
-                               color: Colors.deepPurpleAccent,
+                               color: Pallete.color2
                              ),
                              child: Icon(LineAwesomeIcons.camera,
                              size: 15,
@@ -204,7 +205,7 @@ class Updateprofile extends StatelessWidget {
 
                   }, child: Text("Edit Profile",
                   style: TextStyle(
-                    color: Colors.deepPurpleAccent
+                    color: Pallete.color2
                   ),),
                   style: ElevatedButton.styleFrom(
                     shape: StadiumBorder(),

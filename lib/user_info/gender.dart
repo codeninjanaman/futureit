@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:futureit/constants.dart';
 import 'package:futureit/user_info/maritalstatus.dart';
 
 class gender extends StatefulWidget {
@@ -11,6 +13,8 @@ class _genderState extends State<gender> {
   Color femaleButtonColor = Colors.grey.shade800;
   Color otherButtonColor = Colors.grey.shade800;
   String selectedGender = ''; 
+  final _db = FirebaseFirestore.instance;
+  String docID = Pallete.documentId;
   
   // To store the selected gender
 
@@ -21,14 +25,17 @@ class _genderState extends State<gender> {
         maleButtonColor = Colors.green; // Change the button color
         femaleButtonColor = Colors.grey.shade800;
         otherButtonColor = Colors.grey.shade800;
+        _db.collection("Users").doc(docID).update({"Gender": "Male"});
       } else if (gender == 'Female') {
         maleButtonColor = Colors.grey.shade800;
         femaleButtonColor = Colors.green; // Change the button color
         otherButtonColor = Colors.grey.shade800;
+        _db.collection("Users").doc(docID).update({"Gender": "Female"});
       } else if (gender == 'Other') {
         maleButtonColor = Colors.grey.shade800;
         femaleButtonColor = Colors.grey.shade800;
-        otherButtonColor = Colors.green; // Change the button color
+        otherButtonColor = Colors.green; 
+        _db.collection("Users").doc(docID).update({"Gender": "Other"});// Change the button color
       }
 
       Navigator.push(

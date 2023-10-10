@@ -34,9 +34,9 @@ import 'package:flutter/material.dart';
 import 'package:futureit/Dashboard/analytics/analytics.dart';
 import 'package:futureit/Dashboard/homepageordashboard/homepage.dart';
 import 'package:futureit/Dashboard/order%20book/orderbook.dart';
-import 'package:futureit/Dashboard/position/position.dart';
-import 'package:futureit/Dashboard/stocks/stocks.dart';
+import 'package:futureit/Dashboard/portfolio/portfolio.dart';
 import 'package:futureit/Dashboard/watchlist/watchlist.dart';
+import 'package:futureit/constants.dart';
 import 'package:futureit/profile/profilemenuwidget.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -94,7 +94,7 @@ if (loginTimeString != null) {
   final List _tabs = [
     homepage(),
     watchlist(),
-    AadhaarRetrieveScreen(),
+    portfolio(),
     orderbook(),
     analytics()
   
@@ -107,66 +107,66 @@ if (loginTimeString != null) {
     final height= MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-       backgroundColor: const Color.fromARGB(255, 16, 16, 16),
-      appBar: AppBar(
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1), // Set the height of the white border
-          child: Container(
-            color: Colors.grey, // Color of the white border
-            height: 1, // Thickness of the white border
-          ),
-        ),
-          iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: Colors.transparent,
-          // leading: IconButton(
-          //   icon: Icon(Icons.menu,),
-          //   onPressed: (){
-          //     Drawer()
-          //   },
+       backgroundColor: Pallete.color1,
+      // appBar: AppBar(
+      //   bottom: PreferredSize(
+      //     preferredSize: Size.fromHeight(1), // Set the height of the white border
+      //     child: Container(
+      //       color: Colors.grey, // Color of the white border
+      //       height: 1, // Thickness of the white border
+      //     ),
+      //   ),
+      //     iconTheme: IconThemeData(color: Colors.white),
+      //     backgroundColor: Colors.transparent,
+      //     // leading: IconButton(
+      //     //   icon: Icon(Icons.menu,),
+      //     //   onPressed: (){
+      //     //     Drawer()
+      //     //   },
 
-          // color: Colors.white,),
+      //     // color: Colors.white,),
 
-          title: SizedBox( 
-            height: 40,
-            child: TextFormField(
-              style: TextStyle(color: Colors.white),
+      //     title: SizedBox( 
+      //       height: 40,
+      //       child: TextFormField(
+      //         style: TextStyle(color: Colors.white),
               
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.only(bottom: 2),
-                label: Text("Search",
-                style: TextStyle(fontSize: 15,
-                color: Colors.white),),
-                prefixIcon: Icon(Icons.search,
-                color: Colors.white,),
-                border: OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1.1,
-                      color:Colors.white)
-                ),
-                labelStyle: TextStyle(color: Colors.white),
-                // focusedBorder: OutlineInputBorder(
-                //   borderSide: BorderSide(width: 2.0,
-                //   color:Color.fromARGB(221, 44, 42, 42))
-                // )
+      //         decoration: const InputDecoration(
+      //           contentPadding: EdgeInsets.only(bottom: 2),
+      //           label: Text("Search",
+      //           style: TextStyle(fontSize: 15,
+      //           color: Colors.white),),
+      //           prefixIcon: Icon(Icons.search,
+      //           color: Colors.white,),
+      //           border: OutlineInputBorder(),
+      //           focusedBorder: OutlineInputBorder(
+      //             borderSide: BorderSide(width: 1.1,
+      //                 color:Colors.white)
+      //           ),
+      //           labelStyle: TextStyle(color: Colors.white),
+      //           // focusedBorder: OutlineInputBorder(
+      //           //   borderSide: BorderSide(width: 2.0,
+      //           //   color:Color.fromARGB(221, 44, 42, 42))
+      //           // )
                 
-              )
-            ),
-          ),
-          actions: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.transparent
+      //         )
+      //       ),
+      //     ),
+      //     actions: [
+      //       Container(
+      //         decoration: BoxDecoration(
+      //           borderRadius: BorderRadius.circular(100),
+      //           color: Colors.transparent
 
-              ),
-              child: IconButton(onPressed: (){
-                Get.to(()=>ProfileScreen());
-              }, icon: Icon(Icons.person,
-              color: Colors.white,)),
-            )
+      //         ),
+      //         child: IconButton(onPressed: (){
+      //           Get.to(()=>ProfileScreen());
+      //         }, icon: Icon(Icons.person,
+      //         color: Colors.white,)),
+      //       )
 
-          ],
-        ),
+      //     ],
+      //   ),
         drawer: SafeArea(
           child: Drawer(
             backgroundColor: const Color.fromARGB(255, 16, 16, 16),
@@ -179,7 +179,18 @@ if (loginTimeString != null) {
                 Container(
                   padding: EdgeInsets.all(20),
                   height: height*0.17,
-                  color: Color(0xFF8C64FF),
+                  decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFD69A38),
+                Color(0xFF110C2C),
+                
+              ],
+              stops: [0.2,0.9]
+            )
+          ),
                   child: Column(
                     children: [
                       SizedBox(height: height*0.015,),
@@ -260,8 +271,8 @@ if (loginTimeString != null) {
                       
                     ],
                   ),
-                )
-             ,
+                ),
+                
               SizedBox(height: height*0.01,),
               Profilemenuwidget(title: 'Market', icon: Icons.bar_chart, onPress: (){}),
               Profilemenuwidget(title: 'Trade', icon: Icons.track_changes, onPress: (){}),
@@ -302,13 +313,13 @@ if (loginTimeString != null) {
           // ),
           // color: Color(0xFF6361EC),
           
-          color: const Color.fromARGB(255, 41, 40, 40),
+          color: Pallete.color2,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 7.0),
             child: GNav(
                 onTabChange: (newIndex) =>
                     setState(() => _selectedIndex = newIndex),
-                backgroundColor: const Color.fromARGB(255, 41, 40, 40),
+                backgroundColor: Pallete.color2,
                 // backgroundColor: Colors.white,
                 color: Colors.white,
                 activeColor: Colors.white,

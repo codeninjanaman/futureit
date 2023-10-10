@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futureit/constants.dart';
 
 class viewholdings extends StatelessWidget {
   const viewholdings({
@@ -156,11 +157,11 @@ class viewholdings extends StatelessWidget {
       ),
     ),
      
-     SizedBox(height: height*0.015,),
+     SizedBox(height: height*0.04,),
      Container(
           width: double.infinity,
           height: 2,
-          color: Color(0xFF8C64FF),
+          color: Pallete.color2
          )
      ],
     );

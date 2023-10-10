@@ -6,14 +6,7 @@ import 'package:flutter/material.dart';
 class Pallete{
   User? user = FirebaseAuth.instance.currentUser;
 
-
-  static const appBarGradient = LinearGradient(
-    colors: [
-      Color.fromARGB(255, 29, 201, 192),
-      Color.fromARGB(255, 125, 221, 216),
-    ],
-    stops: [0.5, 1.0],
-  );
+  static String documentId = '';
 
   static const secondaryColor = Color.fromRGBO(255, 153, 0, 1);
   static const backgroundColor = Colors.white;
