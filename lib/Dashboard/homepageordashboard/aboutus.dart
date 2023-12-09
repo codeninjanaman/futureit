@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants.dart';
 
@@ -9,7 +10,7 @@ class aboutus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Pallete.color1,
+      backgroundColor: Pallete.white,
       appBar: AppBar(
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(1), // Set the height of the white border
@@ -18,27 +19,30 @@ class aboutus extends StatelessWidget {
               height: 1, // Thickness of the white border
             ),
           ),
-        backgroundColor: Pallete.color1,
+        backgroundColor: Pallete.white,
         title: Text('About Us',
-        style: TextStyle(
-          color: Colors.white
+        style: GoogleFonts.inter(
+          textStyle: TextStyle(
+            color: Pallete.black,
+            fontSize: 16,
+          )
         ),),
 
         leading: IconButton(onPressed: (){
           Get.back();
         }, icon: Icon(Icons.arrow_back,
-        color: Colors.white,))
+        color: Pallete.black,))
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 5,),
+          
             Container(
-              
-              child: Image.asset('assets/images/aboutus1.png'),
+              padding: EdgeInsets.only(top: 20,right: 20,left: 20,bottom: 10),
+              child: Image.asset('assets/images/aboutus.png'),
             ),
             Container(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -48,13 +52,18 @@ Text.rich(
                           
                           children: [
                           TextSpan(text: "Finit: ",
-                          style: TextStyle(
-                            color: Pallete.color2,
-                            fontSize: 15
+                          style: GoogleFonts.inter(
+                            textStyle: TextStyle(
+                            color: Pallete.yellow1,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600
+                          )
                           )),
                           TextSpan(text: "Where Finance and Technology Converge",
-                          style: TextStyle(color: Colors.white,
-                          fontSize: 15))
+                          style: GoogleFonts.inter(
+                            textStyle: TextStyle(color: Pallete.black,
+                          fontSize: 15)
+                          ))
                         ]
                         ),
 
@@ -66,9 +75,11 @@ Text.rich(
                         
                         'Welcome to Finit, where the worlds of finance and technology seamlessly unite to empower your financial journey like never before. We are your trusted partner in the world of trading, offering innovative solutions that make your financial goals achievable.\n\nAt Finit, we understand that navigating the complexities of financial markets can be a daunting task. That\'s why we\'ve created a revolutionary copytrading app that takes the guesswork out of trading. Our mission is to democratize trading by providing you with the tools and expertise needed to succeed in the ever-changing financial landscape.',
                         textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13
+                        style: GoogleFonts.inter(
+                          textStyle: TextStyle(
+                          color: Pallete.black,
+                          fontSize: 12
+                        )
                         ),)
                 ],
               )

@@ -34,8 +34,9 @@ class Updateprofile extends StatelessWidget {
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
                 if(snapshot.hasData){
+                  
                   UserModel user = snapshot.data as UserModel;
-
+                  
                   final email =TextEditingController(text: user.email);
                   final password =TextEditingController(text: user.password);
                   final fullName =TextEditingController(text: user.fullName);

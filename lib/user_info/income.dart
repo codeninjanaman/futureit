@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:futureit/Dashboard/dashboard.dart';
-import 'package:futureit/authentication/forgotpassword/mobileotp.dart';
 import 'package:futureit/authentication/forgotpassword/otpscreen.dart';
+import 'package:futureit/pin/pin.dart';
 import 'package:futureit/user_info/maritalstatus.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../constants.dart';
 
@@ -22,27 +23,16 @@ class _incomeState extends State<income> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
-        decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  
-                  Color(0xFF110C2C),
-                  Color(0xFFD69A38),
-                ],
-                stops: [0.41,0.7]
-              )
-            ),
         child: Scaffold(
           
-          backgroundColor: Colors.transparent,
+          backgroundColor: Pallete.white,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back,
-            color: Colors.white,)),
+            leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios,
+            color: Pallete.black,)),
           ),
           
       
@@ -52,23 +42,22 @@ class _incomeState extends State<income> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Annual Income',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16
-                      ),),
-      
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text('Select one of the options',
-                      style: TextStyle(
-                        color: Colors.white,
-                      
-                      )
-                      ),
-                      SizedBox(height: 15,),
+                  Text('Income',
+                  style: GoogleFonts.inter(
+                    textStyle: TextStyle(
+                      color: Pallete.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500
+                    )
+                  ),),
+                  Text('Select one of the options',
+                  style: GoogleFonts.inter(
+                    textStyle: TextStyle(
+                      color: Pallete.black,
+                      fontSize: 14
+                    )
+                  ),),
+                      SizedBox(height: size.height*0.04,),
       
                       Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -87,19 +76,29 @@ class _incomeState extends State<income> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Dashboard(),
+                        builder: (context) => PinSetupScreen(),
                       ),
                     );
                   },
                   child: Text(gender,
-                  style: TextStyle(
-                    color: Colors.white
-                  ),),
+                  style: GoogleFonts.inter(
+                          textStyle: TextStyle(
+                          color: Pallete.black,
+                          fontSize: 14
+                        )
+                        )
+                  ),
                   style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      side: BorderSide(
+                        color: Pallete.yellow1,
+                        width: 1
+                      )
+                    ),
                     primary: selectedincomeIndex == index
-                        ? Colors.green
-                        : Colors.grey[800],
+                        ? Pallete.yellow1
+                        : Pallete.white,
                   ),
                 ),
               );

@@ -11,6 +11,7 @@ class SignUpController extends GetxController{
 
   final email = TextEditingController();
   final password = TextEditingController();
+  final confirmpassword = TextEditingController();
   final fullName = TextEditingController();
   final phoneNo = TextEditingController();
   final auth = AuthenticationRepositary.instance;

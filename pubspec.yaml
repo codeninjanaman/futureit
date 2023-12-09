@@ -40,13 +40,16 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
-  get: ^4.6.5
+  get: ^4.6.6
   line_awesome_flutter: ^2.0.0
   cloud_firestore: ^4.8.4
+  share: ^2.0.4
   google_nav_bar: ^5.0.6
+  local_auth: ^2.1.7
   lottie: ^2.6.0
+  news_api_flutter_package: ^1.1.0
+  flutter_webview_plugin: ^0.4.0
   google_sign_in: ^6.1.5
-  shared_preferences: ^2.0.12
   intl: ^0.17.0
   pinput: ^3.0.1
   dotted_border: ^2.1.0
@@ -54,6 +57,15 @@ dependencies:
   firebase_storage: ^11.2.7
   image_picker: ^1.0.4
   percent_indicator: ^4.2.3
+  fl_chart: ^0.64.0
+  flutter_secure_storage: ^9.0.0
+  google_fonts: 4.0.4
+  shared_preferences: ^2.2.2
+  email_validator: ^2.1.17
+  url_launcher: ^6.2.1
+  googleapis: ^11.4.0
+  googleapis_auth: ^1.4.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

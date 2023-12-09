@@ -101,6 +101,7 @@ import 'package:futureit/authentication/models/user_model.dart';
 import 'package:futureit/constants.dart';
 import 'package:futureit/user_info/adhaarcard/adharcard1.dart';
 import 'package:futureit/user_info/gender.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -128,6 +129,7 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
   }
 
   Future<void> _uploadImage() async {
+
     if (_selectedImage == null) {
       // Handle no image selected error
       return;
@@ -144,19 +146,22 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
 
     final Reference storageRef = _storage.ref().child('Adhaar_images').child('$docID.jpg');
 
+
     final UploadTask uploadTask = storageRef.putFile(_selectedImage!);
 
     final TaskSnapshot downloadSnapshot = await uploadTask;
+    CircularProgressIndicator();
     final String downloadUrl = await downloadSnapshot.ref.getDownloadURL();
 
     await _storeDownloadUrlInFirestore(downloadUrl);
-
-    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => gender(),
-                    ),
-                  );
+    
+    // Navigator.push(
+    //                 context,
+    //                 MaterialPageRoute(
+    //                   builder: (context) => gender(),
+    //                 ),
+    //               );
+    Get.to(gender());
   }
 
   Future<void> _storeDownloadUrlInFirestore(String downloadUrl) async {
@@ -171,39 +176,33 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
     User? user = FirebaseAuth.instance.currentUser;
     String uid = user!.uid;
     String docID = Pallete.documentId;
-
+    CircularProgressIndicator();
     // Replace 'users' and 'userId' with your Firestore collection and document ID
     await _firestore.collection('Users').doc('$docID').set(data, SetOptions(merge: true));
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
-        decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  
-                  Color(0xFF110C2C),
-                  Color(0xFFD69A38),
-                ],
-                stops: [0.41,0.7]
-              )
-            ),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(onPressed: (){
+          Get.back();
+        }, icon: Icon(Icons.arrow_back_ios,
+        size: 18,
+        color: Pallete.black1,))
+      ),
+          backgroundColor: Pallete.white,
           body: Center(
             child: Container(
             padding: EdgeInsets.all(20),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-
-                  
-
                   Container(
                     child: Column(
                       children: [
@@ -213,15 +212,15 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
                     child: Text("Upload Adhaar Card",
                     
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Pallete.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 19
                     ),),
                   ),
                   SizedBox(height: 8,),
-                  Text('Adhaar Card is compulsory for investing in india. This is one-time setup & takes less than a minute.',
+                  Text('Adhaar Card is compulsory for verification in India.',
                   style: TextStyle(
-                    color: Colors.white
+                    color: Pallete.black
                   ),),
                   SizedBox(height: 80,),
     
@@ -234,7 +233,7 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
                         )
                       :
                       DottedBorder(
-                        color: Pallete.color2,//color of dotted/dash line
+                        color: Colors.grey,//color of dotted/dash line
                 strokeWidth: 2, //thickness of dash/dots
                 dashPattern: [10,6],
                 
@@ -250,14 +249,14 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
                            OutlinedButton(onPressed: _selectImage,
                            child: Text('Upload Adhaar Card',
                            style: TextStyle(
-                            color: Colors.white,
+                            color: Pallete.black,
                             fontSize: 12
                            ),),
                            style: ButtonStyle(
                             // shape: BeveledRectangleBorder(),
             side: MaterialStateProperty.all(
               BorderSide(
-                color: Colors.white, // Set the desired border color here
+                color: Pallete.black, // Set the desired border color here
                 width: 1.0,
                  // Set the desired border width here
               ),
@@ -267,11 +266,11 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
                         TextSpan(children: [
                           TextSpan(text: "Supported file types:",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Pallete.black,
                             fontSize: 12
                           )),
                           TextSpan(text: "PDF/JPG",
-                          style: TextStyle(color: Colors.white,
+                          style: TextStyle(color: Pallete.black,
                           fontSize: 12,
                           fontWeight: FontWeight.bold ))
                         ]
@@ -282,14 +281,52 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
                         )
                       ), ),
                        
-                  SizedBox(height: 15,),
+                  SizedBox(height: 12,),
                   GestureDetector(
                     onTap: _selectImage,
                     child: Text('Select another image',
                     style: TextStyle(
-                      color: Colors.white
+                      color: Pallete.black
                     ),),
                   ),
+                  SizedBox(height: size.height*0.08,),
+                  SizedBox(
+                      width: size.width*0.7,
+                      child: ElevatedButton(
+                      
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Pallete.yellow1,
+                        elevation: 4
+                      ),
+                      onPressed: _uploadImage, child: Text('Continue',
+                                      style: TextStyle(
+                      color: Pallete.black
+                                      ),)),
+                    ),
+                    SizedBox(height: 20,),
+                    if (_downloadUrl != null)
+                    Text(
+                      'Download URL: $_downloadUrl',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  // SizedBox(
+                  //   width: size.width*0.07,
+                  //   child: ElevatedButton(
+                        
+                  //       onPressed: _uploadImage,
+                  //       style: ElevatedButton.styleFrom(
+                  //         backgroundColor: Pallete.yellow1,
+                  //         shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(20)
+                  //         )
+                  //       ),
+                  //       child: Text('Continue',
+                  //       style: TextStyle(
+                  //         color: Pallete.black,
+                  //         fontSize: 16
+                  //       ),),
+                  //     ),
+                  // ),
                       ],
                     ),
                   ),
@@ -297,35 +334,11 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
                   
                   
             
-                  // Button to select an image
-                  
-            
-                  // Button to upload the selected image
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      
-                      onPressed: _uploadImage,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Pallete.color1,
-                        shape: BeveledRectangleBorder()
-                      ),
-                      child: Text('Continue',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16
-                      ),),
-                    ),
-                  ),
-            
+                
                   
             
                   // Display the download URL if available
-                  if (_downloadUrl != null)
-                    Text(
-                      'Download URL: $_downloadUrl',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                  
                 ],
               ),
             ),
@@ -335,4 +348,8 @@ class _AadhaarUploadScreenState extends State<AadhaarUploadScreen> {
     );
   }
 }
+
+
+
+
 

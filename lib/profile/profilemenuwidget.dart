@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:futureit/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 class Profilemenuwidget extends StatelessWidget {
   const Profilemenuwidget({
@@ -20,7 +21,7 @@ class Profilemenuwidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 45,
       child: ListTile(
         onTap: onPress,
        leading: Container(
@@ -28,29 +29,33 @@ class Profilemenuwidget extends StatelessWidget {
          height: 30,
          decoration: BoxDecoration(
            borderRadius: BorderRadius.circular(100),
-           color: Colors.grey.withOpacity(0.1),
+          //  color: Colors.grey.withOpacity(0.1),
     
          ),
          child: Icon(icon,
-         color: Pallete.color2),
+         size: 20,
+         color: Pallete.yellow1),
          
        ),
        title: Text(title,
-       style: TextStyle(
-         fontSize: 15,
-         color: Colors.white
+       style: GoogleFonts.inter(
+        textStyle: TextStyle(
+         fontSize: 12,
+         color: Pallete.black
          
-       ).apply(color: textColor),),
+       )
+       )
+       .apply(color: textColor),),
        trailing: endIcon? Container(
          width: 30,
          height: 30,
          decoration: BoxDecoration(
            borderRadius: BorderRadius.circular(100),
-           color: Colors.grey.withOpacity(0.1),
+          //  color: Colors.grey.withOpacity(0.1),
          ),
          child: Icon(LineAwesomeIcons.angle_right,
          size: 10,
-         color: Colors.grey,),
+         color: Pallete.black,),
        ) : null
       ),
     );

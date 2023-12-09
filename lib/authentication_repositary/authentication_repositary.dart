@@ -5,10 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/material.dart';
 import 'package:futureit/Dashboard/dashboard.dart';
+import 'package:futureit/Getstarted.dart';
+import 'package:futureit/authentication/biometric.dart';
 import 'package:futureit/authentication/forgotpassword/otpscreen.dart';
 import 'package:futureit/authentication/verification/mailverification.dart';
 import 'package:futureit/exceptions/signup_emailpassword_fail.dart';
+import 'package:futureit/login/loginscreen.dart';
 import 'package:futureit/onboardingscreen.dart';
+import 'package:futureit/pin/entrypin.dart';
+import 'package:futureit/pin/pin.dart';
+import 'package:futureit/pin/pinentryscreen.dart';
 import 'package:futureit/user_info/gender.dart';
 import 'package:futureit/user_info/pancard.dart';
 import 'package:get/get.dart';
@@ -34,21 +40,25 @@ class AuthenticationRepositary extends GetxController{
   }
   
 
-  _setInitialScreen(User? user){
+  _setInitialScreen(User? user)async{
     // user == null? Get.offAll(()=>  gender() ) :
 
+    final pin = await getPin();
 
-
-    user == null? Get.offAll(()=> const onboarding() ) :
+    user == null? Get.offAll(()=> onboarding() ) :
     //  user.emailVerified? 
-     Get.offAll(()=> Dashboard()) ;
+    // Get.offAll(()=> Dashboard()) ;
+     pin == null ? 
+      Get.off(Dashboard()) :
+      Get.offAll(()=> BiometricScreen());
+    //  Get.offAll(()=> PinEntryScreen(pin!));
     //  : Get.offAll(()=> MailVerification());
   }
 
   
   Future<void> phoneAuthentication(String phoneNo)async{
    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNo,
+      phoneNumber:'+91'+phoneNo,
       verificationCompleted: (credential)async{
         await _auth.signInWithCredential(credential);
       },
@@ -68,17 +78,41 @@ class AuthenticationRepositary extends GetxController{
   
   }
 
-  signInWithGoogle() async {
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: gAuth.accessToken,
-      idToken: gAuth.idToken,
-    );
+  // signInWithGoogle() async {
+  //   final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+  //   final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+  //   final credential = GoogleAuthProvider.credential(
+  //     accessToken: gAuth.accessToken,
+  //     idToken: gAuth.idToken,
+  //   );
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+  //   return await FirebaseAuth.instance.signInWithCredential(credential);
 
-  }
+  // }
+
+//   Future<User?> signInWithGoogle() async {
+//   try {
+//     final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
+//     if (googleSignInAccount == null) return null;
+
+//     final GoogleSignInAuthentication googleSignInAuthentication =
+//         await googleSignInAccount.authentication;
+
+//     final OAuthCredential credential = GoogleAuthProvider.credential(
+//       accessToken: googleSignInAuthentication.accessToken,
+//       idToken: googleSignInAuthentication.idToken,
+//     );
+
+//     final UserCredential authResult =
+//         await FirebaseAuth.instance.signInWithCredential(credential);
+
+//     return authResult.user;
+//   } catch (e) {
+//     print("Error signing in with Google: $e");
+//     return null;
+//   }
+// }
+
 
   Future<bool> verifyOTP(String otp)async{
    var credentials = await _auth.signInWithCredential(PhoneAuthProvider.credential(verificationId: verificationId.value, smsCode: otp));
@@ -117,13 +151,13 @@ class AuthenticationRepositary extends GetxController{
     } catch(_){}
   }
 
-  Future<void> logout()async=> await _auth.signOut();
+  Future<void> logout()async=> await _auth.signOut().then((value) => Get.to(loginscreen()));
 
   Future<void> sendEmailVerification()async{
     
     try{
      await _auth.currentUser?.sendEmailVerification();
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException {
       Get.snackbar("Error", "There was some error in verification of the mail",
       colorText: Colors.red,
       snackPosition: SnackPosition.BOTTOM);

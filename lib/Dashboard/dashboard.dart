@@ -47,7 +47,6 @@ import 'package:intl/intl.dart';
 import '../authentication/models/user_model.dart';
 import '../authentication_repositary/authentication_repositary.dart';
 import '../controller/profilecontroller.dart';
-import '../profile/profile_screen.dart';
 import 'dart:core';
 
 class Dashboard extends StatefulWidget {
@@ -61,29 +60,37 @@ class _DashboardState extends State<Dashboard> {
 
   DateTime ?loginTime;
   
-  
+  int _selectedIndex = 0;
+  static const TextStyle _selectedLabelStyle = TextStyle(color: Colors.orange,
+  fontSize: 8);
+  static const TextStyle _unselectedLabelStyle = TextStyle(color: Colors.white,
+  fontSize: 8);
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
 
-  void getTime() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-String? loginTimeString = prefs.getString('loginTime');
-if (loginTimeString != null) {
-  setState(() {
-    loginTime = DateTime.parse(loginTimeString);
-  });
-  // Now you have the login time, and you can use it as needed.
-}
+//   void getTime() async{
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+// String? loginTimeString = prefs.getString('loginTime');
+// setState(() {
+//   loginTime = DateTime.parse(loginTimeString);
+// });
+// // Now you have the login time, and you can use it as needed.
 
-  }
-@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getTime();
-  }
+//   }
+
+
+// @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//     getTime();
+//   }
 
 
   final controller = Get.put(ProfileController());
-  int _selectedIndex = 0;
   final List<String> _titles = [
     'DashBoard',
     'Watchlist',
@@ -91,7 +98,7 @@ if (loginTimeString != null) {
     'Order Book',
     'Analytics'
   ];
-  final List _tabs = [
+  final List<Widget> _screens = [
     homepage(),
     watchlist(),
     portfolio(),
@@ -99,6 +106,11 @@ if (loginTimeString != null) {
     analytics()
   
   ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,66 +119,8 @@ if (loginTimeString != null) {
     final height= MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-       backgroundColor: Pallete.color1,
-      // appBar: AppBar(
-      //   bottom: PreferredSize(
-      //     preferredSize: Size.fromHeight(1), // Set the height of the white border
-      //     child: Container(
-      //       color: Colors.grey, // Color of the white border
-      //       height: 1, // Thickness of the white border
-      //     ),
-      //   ),
-      //     iconTheme: IconThemeData(color: Colors.white),
-      //     backgroundColor: Colors.transparent,
-      //     // leading: IconButton(
-      //     //   icon: Icon(Icons.menu,),
-      //     //   onPressed: (){
-      //     //     Drawer()
-      //     //   },
+       backgroundColor: Pallete.white,
 
-      //     // color: Colors.white,),
-
-      //     title: SizedBox( 
-      //       height: 40,
-      //       child: TextFormField(
-      //         style: TextStyle(color: Colors.white),
-              
-      //         decoration: const InputDecoration(
-      //           contentPadding: EdgeInsets.only(bottom: 2),
-      //           label: Text("Search",
-      //           style: TextStyle(fontSize: 15,
-      //           color: Colors.white),),
-      //           prefixIcon: Icon(Icons.search,
-      //           color: Colors.white,),
-      //           border: OutlineInputBorder(),
-      //           focusedBorder: OutlineInputBorder(
-      //             borderSide: BorderSide(width: 1.1,
-      //                 color:Colors.white)
-      //           ),
-      //           labelStyle: TextStyle(color: Colors.white),
-      //           // focusedBorder: OutlineInputBorder(
-      //           //   borderSide: BorderSide(width: 2.0,
-      //           //   color:Color.fromARGB(221, 44, 42, 42))
-      //           // )
-                
-      //         )
-      //       ),
-      //     ),
-      //     actions: [
-      //       Container(
-      //         decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(100),
-      //           color: Colors.transparent
-
-      //         ),
-      //         child: IconButton(onPressed: (){
-      //           Get.to(()=>ProfileScreen());
-      //         }, icon: Icon(Icons.person,
-      //         color: Colors.white,)),
-      //       )
-
-      //     ],
-      //   ),
         drawer: SafeArea(
           child: Drawer(
             backgroundColor: const Color.fromARGB(255, 16, 16, 16),
@@ -274,13 +228,17 @@ if (loginTimeString != null) {
                 ),
                 
               SizedBox(height: height*0.01,),
-              Profilemenuwidget(title: 'Market', icon: Icons.bar_chart, onPress: (){}),
+              // Profilemenuwidget(title: 'Market', icon: Icons.bar_chart, onPress: (){}),
               Profilemenuwidget(title: 'Trade', icon: Icons.track_changes, onPress: (){}),
               Profilemenuwidget(title: 'Portfolio', icon: Icons.book, onPress: (){}),
               Profilemenuwidget(title: 'Fund Transfer', icon: Icons.money, onPress: (){}),
               Profilemenuwidget(title: 'News', icon: Icons.newspaper, onPress: (){}),
               Profilemenuwidget(title: 'Analytics', icon: Icons.pie_chart, onPress: (){}),
-              Profilemenuwidget(title: 'Help', icon: Icons.help, onPress: (){}),
+              Profilemenuwidget(title: 'Profit Calculator', icon: Icons.calculate, onPress: (){}),
+              Profilemenuwidget(title: 'Help & Support', icon: Icons.help, onPress: (){}),
+              Profilemenuwidget(title: 'About Us', icon: Icons.error_outline, onPress: (){}),
+              Profilemenuwidget(title: 'Refer a Friend', icon: Icons.countertops_outlined, onPress: (){}),
+              Profilemenuwidget(title: 'Rate Us', icon: Icons.star_border_outlined, onPress: (){}),
 
               Container(
                 height: height*0.1,
@@ -304,88 +262,59 @@ if (loginTimeString != null) {
           ),
         ),
       // appBar: AppBar(title: Text(_titles[_selectedIndex])),
-      body: _tabs[_selectedIndex],
-      bottomNavigationBar: Material(
-        elevation: 60,
-        child: Container(
-          // decoration: BoxDecoration(
-          // border: Border.all(color: Colors.black)
-          // ),
-          // color: Color(0xFF6361EC),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(8.0),
+        color: Colors.transparent,
+        child: ClipRRect(
           
-          color: Pallete.color2,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 7.0),
-            child: GNav(
-                onTabChange: (newIndex) =>
-                    setState(() => _selectedIndex = newIndex),
-                backgroundColor: Pallete.color2,
-                // backgroundColor: Colors.white,
-                color: Colors.white,
-                activeColor: Colors.white,
-                // tabBackgroundColor: Colors.blue.shade700,
-                tabBackgroundColor: Colors.white,
-                gap: 7,
-                padding: const EdgeInsets.all(8),
-                tabs: const [
-                  GButton(
-                    icon: LineAwesomeIcons.home,
-                    iconColor: Colors.white,
-                    iconActiveColor: Colors.black,
-                    text: ('Dashboard'),
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  GButton(
-                    icon: Icons.note_add_sharp,
-                    iconColor: Colors.white,
-                    iconActiveColor: Colors.black,
-                    text: ('Watchlist'),
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  GButton(
-                    icon: Icons.post_add_outlined,
-                    iconColor: Colors.white,
-                    iconActiveColor: Colors.black,
-                    text: ('Position'),
-                    // hoverColor: Colors.grey,
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  GButton(
-                    icon: Icons.book,
-                    iconColor: Colors.white,
-                    iconActiveColor: Colors.black,
-                    text: ('Order Book'),
-                    // hoverColor: Colors.grey,
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  GButton(
-                    icon: Icons.pie_chart,
-                    iconColor: Colors.white,
-                    iconActiveColor: Colors.black,
-                    text: ('Analytics'),
-                    // hoverColor: Colors.grey,
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                
-                ]),
+          borderRadius: BorderRadius.circular(25),
+          child: BottomNavigationBar(
+            
+            // fixedColor: Colors.black,
+            backgroundColor: Pallete.black1,
+            type: BottomNavigationBarType.fixed,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home, color: _selectedIndex == 0 ? Colors.orange : Colors.white),
+                label: 'Home',
+                activeIcon: Icon(Icons.home, color: Colors.orange),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.watch_later, color: _selectedIndex == 1 ? Colors.orange : Colors.white),
+                label: 'Watchlist',
+                activeIcon: Icon(Icons.watch_later, color: Colors.orange),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list_alt, color: _selectedIndex == 2 ? Colors.orange : Colors.white),
+                label: 'Portfolio',
+                activeIcon: Icon(Icons.list_alt, color: Colors.orange),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.book_outlined, color: _selectedIndex == 3 ? Colors.orange : Colors.white),
+                label: 'Order Book',
+                activeIcon: Icon(Icons.book_outlined, color: Colors.orange),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.pie_chart, color: _selectedIndex == 4 ? Colors.orange : Colors.white),
+                label: 'Analytics',
+                activeIcon: Icon(Icons.pie_chart, color: Colors.orange),
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.orange,
+            unselectedItemColor: Colors.white,
+            selectedLabelStyle: _selectedLabelStyle,
+            unselectedLabelStyle: _unselectedLabelStyle,
+            onTap: _onItemTapped,
           ),
         ),
       ),
+      // 
+     
     );
   }
 }

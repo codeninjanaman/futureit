@@ -4,10 +4,12 @@ import 'package:futureit/authentication_repositary/authentication_repositary.dar
 import 'package:futureit/controller/otpcontroller.dart';
 import 'package:futureit/firebase_options.dart';
 import 'package:futureit/onboardingscreen.dart';
+import 'package:futureit/theme.dart';
 import 'package:get/get.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) => Get.put(AuthenticationRepositary())).then((value) => Get.put(OTPController()));
   runApp(const MyApp());
 
@@ -27,6 +29,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: onboarding(),
+      initialBinding: BindingsBuilder(() {
+        Get.put(ThemeController());
+      }),
     );
   }
 }

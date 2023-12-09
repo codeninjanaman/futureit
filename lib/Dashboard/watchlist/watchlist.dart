@@ -10,8 +10,13 @@ class watchlist extends StatefulWidget {
 class _watchlistState extends State<watchlist> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('watchlist')),
+    return  Container(
+        padding: EdgeInsets.all(0),
+          width: double.infinity,
+          child: Image.asset('assets/images/watchlist.png',
+          fit: BoxFit.fill,),
+        
+      
     );
   }
 }

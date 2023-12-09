@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,7 +9,6 @@ class UserModel{
   final String password;
   // final String fathername;
 
-
  UserModel({
     this.id,
     required this.fullName,
@@ -19,10 +16,10 @@ class UserModel{
     required this.phoneNo,
     required this.password,
     // required this.fathername
-    
     }
   );
 
+  String name = "sfnj";
   // String uid = FirebaseAuth.instance.currentUser?.uid ??'';
 
   toJson(){
